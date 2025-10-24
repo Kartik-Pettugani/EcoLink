@@ -22,21 +22,24 @@ connectDB();
 
 //Middlewares
 const allowedOrigins = [
-  "http://localhost:5173",              // Local frontend (dev)
-  "https://eco-link-6y3u.vercel.app",   // Deployed frontend (prod)
+  "http://localhost:5173",
+  "https://eco-link-6y3u.vercel.app",
+  "https://eco-link-6y3u-9bl7d0nyh-kartik-pettuganis-projects.vercel.app"
 ];
 
-app.use(cors({
-  origin: function (origin, callback) {
-    // allow requests with no origin (like mobile apps or curl)
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })
+);
+
 
 app.use(cookieParser());
 app.use(express.json());
