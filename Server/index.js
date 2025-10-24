@@ -21,10 +21,23 @@ const PORT = 8000;
 connectDB();
 
 //Middlewares
+const allowedOrigins = [
+  "http://localhost:5173",              // Local frontend (dev)
+  "https://eco-link-6y3u.vercel.app",   // Deployed frontend (prod)
+];
+
 app.use(cors({
-    origin: 'http://localhost:5173',
-    credentials: true,
-}))
+  origin: function (origin, callback) {
+    // allow requests with no origin (like mobile apps or curl)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+}));
+
 app.use(cookieParser());
 app.use(express.json());
 
